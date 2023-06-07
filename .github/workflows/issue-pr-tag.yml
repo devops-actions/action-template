@@ -15,7 +15,7 @@ jobs:
       issues: write
       pull-requests: write
     steps:
-        - uses: devops-actions/issue-comment-tag@24b5a5d089cb326eec5e2b8d5f031330ff19bf4ee5b5252b1176995a # v0.1.8
+        - uses: devops-actions/issue-comment-tag@ec5e2b8d5f031330ff19bf4ee5b5252b1176995a # v0.1.8
           with:
             team: ${{ vars.tag_team }}
             issue: ${{ github.event.issue.number }}
