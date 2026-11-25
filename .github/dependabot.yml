@@ -1,0 +1,29 @@
+version: 2
+updates:
+  # GitHub Actions used in the workflows and in action.yml.
+  # The '/' directory covers .github/workflows as well as a composite action.yml,
+  # so don't add a second entry for '.github/workflows'.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  # Uncomment for a node (TypeScript/JavaScript) action.
+  # - package-ecosystem: npm
+  #   directory: /
+  #   schedule:
+  #     interval: monthly
+  #   groups:
+  #     npm-dependencies:
+  #       patterns:
+  #         - "*"
+
+  # Uncomment for a docker action.
+  # - package-ecosystem: docker
+  #   directory: /
+  #   schedule:
+  #     interval: monthly

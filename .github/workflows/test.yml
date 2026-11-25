@@ -1,0 +1,52 @@
+name: Test the action
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test (${{ matrix.platform }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        # `platform` gives the check a stable name, so required checks in a ruleset
+        # don't change when a runner label changes. `os` is the runner.
+        include:
+          - platform: linux
+            os: ubuntu-latest
+          - platform: windows
+            os: windows-latest
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@aebdcf6156ab6691adf63218240e476564a1ed4c # v2.23.0
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Run the action from this branch
+        id: action
+        uses: ./
+        with:
+          who-to-greet: 'Mona'
+
+      - name: Check the output
+        shell: bash
+        env:
+          GREETING: ${{ steps.action.outputs.greeting }}
+        run: |
+          if [ "$GREETING" != "Hello Mona" ]; then
+            echo "::error::Unexpected greeting [$GREETING]"
+            exit 1
+          fi
+          echo "Got the expected greeting [$GREETING]"

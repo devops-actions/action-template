@@ -1,0 +1,30 @@
+name: 'Action template'
+description: 'Placeholder action from devops-actions/action-template. Replace this with your own action.'
+author: 'devops-actions'
+
+branding:
+  icon: 'box'
+  color: 'blue'
+
+inputs:
+  who-to-greet:
+    description: 'Who to greet'
+    required: false
+    default: 'World'
+
+outputs:
+  greeting:
+    description: 'The greeting that was written to the log'
+    value: ${{ steps.greet.outputs.greeting }}
+
+runs:
+  using: composite
+  steps:
+    - id: greet
+      shell: bash
+      env:
+        WHO_TO_GREET: ${{ inputs.who-to-greet }}
+      run: |
+        greeting="Hello ${WHO_TO_GREET}"
+        echo "${greeting}"
+        echo "greeting=${greeting}" >> "$GITHUB_OUTPUT"

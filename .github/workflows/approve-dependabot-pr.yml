@@ -1,0 +1,16 @@
+name: "Approve Dependabot PR's" 
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  dependabot:
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    uses: devops-actions/.github/.github/workflows/approve-dependabot-pr.yml@7173ecb27a93c3d22f87ff0dc735dddb189a20b3 # v1.3.0
+    secrets:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
